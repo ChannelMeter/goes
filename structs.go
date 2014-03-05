@@ -5,6 +5,7 @@
 package goes
 
 import (
+	"encoding/json"
 	"net/url"
 )
 
@@ -74,8 +75,8 @@ type Response struct {
 
 	// Used by the GET API
 	Exists bool
-	Source map[string]interface{} `json:"_source"`
-	Fields map[string]interface{} `json:"fields"`
+	Source json.RawMessage `json:"_source"`
+	Fields json.RawMessage `json:"fields"`
 
 	// Used by the _status API
 	Indices map[string]IndexStatus
@@ -129,12 +130,12 @@ type Shard struct {
 
 // Represent a hit returned by a search
 type Hit struct {
-	Index  string                 `json:"_index"`
-	Type   string                 `json:"_type"`
-	Id     string                 `json:"_id"`
-	Score  float64                `json:"_score"`
-	Source map[string]interface{} `json:"_source"`
-	Fields map[string]interface{} `json:"fields"`
+	Index  string          `json:"_index"`
+	Type   string          `json:"_type"`
+	Id     string          `json:"_id"`
+	Score  float64         `json:"_score"`
+	Source json.RawMessage `json:"_source"`
+	Fields json.RawMessage `json:"fields"`
 }
 
 // Represent the hits structure as returned by elasticsearch
