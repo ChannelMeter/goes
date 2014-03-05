@@ -134,13 +134,8 @@ func (c *Connection) BulkSend(index string, documents []Document) (Response, err
 		bulkData[i] = action
 		i++
 
-		if len(doc.Fields) > 0 {
-			fields := make(map[string]interface{}, len(doc.Fields))
-			for fieldName, fieldValue := range doc.Fields {
-				fields[fieldName] = fieldValue
-			}
-
-			sources, err := json.Marshal(fields)
+		if doc.Fields != nil {
+			sources, err := json.Marshal(doc.Fields)
 			if err != nil {
 				return Response{}, err
 			}
