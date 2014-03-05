@@ -165,7 +165,7 @@ func (c *Connection) BulkSend(index string, documents []Document) (Response, err
 }
 
 // Search executes a search query against an index
-func (c *Connection) Search(query map[string]interface{}, indexList []string, typeList []string) (Response, error) {
+func (c *Connection) Search(query interface{}, indexList []string, typeList []string) (Response, error) {
 	r := Request{
 		Conn:      c,
 		Query:     query,
@@ -179,7 +179,7 @@ func (c *Connection) Search(query map[string]interface{}, indexList []string, ty
 }
 
 // Scan starts scroll over an index
-func (c *Connection) Scan(query map[string]interface{}, indexList []string, typeList []string, timeout string, size int) (Response, error) {
+func (c *Connection) Scan(query interface{}, indexList []string, typeList []string, timeout string, size int) (Response, error) {
 	v := url.Values{}
 	v.Add("search_type", "scan")
 	v.Add("scroll", timeout)
