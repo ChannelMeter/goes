@@ -15,7 +15,7 @@ type Connection struct {
 	Host string
 
 	// The port to use
-	Port string
+	Port int
 }
 
 // Represents a Request to elasticsearch

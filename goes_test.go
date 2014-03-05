@@ -14,7 +14,7 @@ import (
 
 var (
 	ES_HOST = "localhost"
-	ES_PORT = "9200"
+	ES_PORT = 9200
 )
 
 // Hook up gocheck into the gotest runner.

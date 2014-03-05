@@ -11,7 +11,7 @@ import (
 )
 
 func ExampleConnection_CreateIndex() {
-	conn := goes.NewConnection("localhost", "9200")
+	conn := goes.NewConnection("localhost", 9200)
 
 	mapping := map[string]interface{}{
 		"settings": map[string]interface{}{
@@ -40,7 +40,7 @@ func ExampleConnection_CreateIndex() {
 }
 
 func ExampleConnection_DeleteIndex() {
-	conn := goes.NewConnection("localhost", "9200")
+	conn := goes.NewConnection("localhost", 9200)
 	resp, err := conn.DeleteIndex("yourinde")
 
 	if err != nil {
@@ -51,7 +51,7 @@ func ExampleConnection_DeleteIndex() {
 }
 
 func ExampleConnection_RefreshIndex() {
-	conn := goes.NewConnection("localhost", "9200")
+	conn := goes.NewConnection("localhost", 9200)
 	resp, err := conn.RefreshIndex("yourindex")
 
 	if err != nil {
@@ -62,7 +62,7 @@ func ExampleConnection_RefreshIndex() {
 }
 
 func ExampleConnection_Search() {
-	conn := goes.NewConnection("localhost", "9200")
+	conn := goes.NewConnection("localhost", 9200)
 
 	var query = map[string]interface{}{
 		"query": map[string]interface{}{
@@ -97,7 +97,7 @@ func ExampleConnection_Search() {
 }
 
 func ExampleConnection_Index() {
-	conn := goes.NewConnection("localhost", "9200")
+	conn := goes.NewConnection("localhost", 9200)
 
 	d := goes.Document{
 		Index: "twitter",
@@ -121,7 +121,7 @@ func ExampleConnection_Index() {
 }
 
 func ExampleConnection_Delete() {
-	conn := goes.NewConnection("localhost", "9200")
+	conn := goes.NewConnection("localhost", 9200)
 
 	//[create index, index document ...]
 
