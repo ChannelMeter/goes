@@ -56,6 +56,7 @@ type Response struct {
 	Ok           bool
 	Acknowledged bool
 	Error        string
+	Errors       bool `json:"errors"`
 	Status       uint64
 	Took         uint64
 	TimedOut     bool  `json:"timed_out"`
