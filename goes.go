@@ -115,15 +115,20 @@ func (c *Connection) BulkSend(index string, documents []Document) (Response, err
 
 	// len(documents) * 2 : action + optional_sources
 	// + 1 : room for the trailing \n
-	bulkData := make([][]byte, len(documents)*2+1)
-	i := 0
+	bulkData := make([]byte, 0, 64*1024)
 
 	for _, doc := range documents {
 		action, err := json.Marshal(map[string]interface{}{
-			doc.BulkCommand: map[string]interface{}{
-				"_index": doc.Index,
-				"_type":  doc.Type,
-				"_id":    doc.Id,
+			doc.BulkCommand: struct {
+				Index  interface{} `json:"_index"`
+				Type   string      `json:"_type"`
+				Id     interface{} `json:"_id"`
+				Parent interface{} `json:"_parent,omitempty"`
+			}{
+				Index:  doc.Index,
+				Type:   doc.Type,
+				Id:     doc.Id,
+				Parent: doc.Parent,
 			},
 		})
 
@@ -131,29 +136,28 @@ func (c *Connection) BulkSend(index string, documents []Document) (Response, err
 			return Response{}, err
 		}
 
-		bulkData[i] = action
-		i++
+		bulkData = append(bulkData, action...)
 
 		if doc.Fields != nil {
+			bulkData = append(bulkData, '\n')
 			sources, err := json.Marshal(doc.Fields)
 			if err != nil {
 				return Response{}, err
 			}
-
-			bulkData[i] = sources
-			i++
+			bulkData = append(bulkData, sources...)
 		}
+		bulkData = append(bulkData, '\n')
 	}
 
 	// forces an extra trailing \n absolutely necessary for elasticsearch
-	bulkData[len(bulkData)-1] = []byte(nil)
+	bulkData = append(bulkData, '\n')
 
 	r := Request{
 		Conn:      c,
 		IndexList: []string{index},
 		method:    "POST",
 		api:       "_bulk",
-		bulkData:  bytes.Join(bulkData, []byte("\n")),
+		bulkData:  bulkData,
 	}
 
 	return r.Run()
