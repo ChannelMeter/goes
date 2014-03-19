@@ -72,7 +72,7 @@ type Response struct {
 	All All `json:"_all"`
 
 	// Used by the _bulk API
-	Items []map[string]Item `json:"items,omitempty"`
+	Items json.RawMessage `json:"items,omitempty"`
 
 	// Used by the GET API
 	Exists bool
